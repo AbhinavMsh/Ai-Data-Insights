@@ -146,6 +146,7 @@ def full_profile(df: pd.DataFrame, dominated_threshold: float = 0.70) -> dict:
         "numeric_stats":     calculate_stats(df),
         "dominated_columns": check_dominated_categorical(df, threshold=dominated_threshold),
     }
+<<<<<<< HEAD
 
 def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -174,3 +175,5 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=categorical_cols)
 
     return df 
+=======
+>>>>>>> 255f6c6342ee5528b9b01eb9442c4a31517fff0e
