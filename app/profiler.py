@@ -1,7 +1,17 @@
+# Module 1:Data Profiler
+
 import pandas as pd
 import numpy as np
 from scipy import stats
 
+def profiler_main(uploaded_file):
+    # main function
+    df = uploaded_file.copy()
+
+    metadata = full_profile(df)
+    
+    return clean_dataframe(df), metadata
+    ...
 
 def detect_column_types(df: pd.DataFrame) -> dict:
     """
@@ -174,3 +184,44 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=categorical_cols)
 
     return df 
+'''
+Expected output
+{
+    "summary": {
+        "total_rows": <int>,          # e.g. 1000
+        "total_columns": <int>,       # e.g. 8
+        "missing_values": <int>,      # total count of NaN cells
+        "duplicate_rows": <int>       # count of duplicate rows
+    },
+
+    "column_types": {
+        "col_A": "numeric",           # one of: 'numeric', 'categorical',
+        "col_B": "categorical",       #   'datetime', 'boolean', 'string', 'unknown'
+        "col_C": "datetime",
+        ...
+    },
+
+    "missing_pct": {
+        "col_A": 12.50,               # only columns WITH missing values appear here
+        "col_C": 3.75,                # rounded to 2 decimal places
+        ...
+    },
+
+    "numeric_stats": {
+        "col_A": {
+            "mean":     123.4567,
+            "median":   120.0,
+            "std_dev":  15.2345,
+            "min":      80.0,
+            "max":      200.0,
+            "skewness": 0.3421        # all rounded to 4 decimal places
+        },
+        ...
+    },
+
+    "dominated_columns": {
+        "col_B": "yes",               # top value > 70% of rows
+        "col_D": "no"                 # only categorical columns appear here
+    }
+}
+'''
