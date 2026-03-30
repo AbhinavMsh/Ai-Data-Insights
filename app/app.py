@@ -2,8 +2,9 @@ import streamlit as st
 from profiler import profiler_main
 from patterns import patterns_main
 from patterns_2 import patterns_2_main
-
-import time; 
+from problem_type import problem_type_main
+import pandas as pd
+import time
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -161,6 +162,18 @@ if "uploaded_file" not in st.session_state:
     st.session_state.uploaded_file = None
 if "reset_trigger" not in st.session_state:
     st.session_state.reset_trigger = 0
+if "target_column" not in st.session_state:
+    st.session_state.target_column = None
+
+# ── Helper function to extract column names ────────────────────────────────────
+def get_column_names(uploaded_file):
+    """Extract column names from Excel file"""
+    try:
+        df = pd.read_excel(uploaded_file)
+        return df.columns.tolist()
+    except Exception as e:
+        st.error(f"Error reading file: {e}")
+        return []
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.markdown('<div class="accent-rule"></div>', unsafe_allow_html=True)
@@ -189,6 +202,25 @@ if uploaded_file:
     st.success(f"✓ &nbsp;&nbsp;**{uploaded_file.name}** ready for analysis "
                f"({uploaded_file.size / 1024:.1f} KB)")
 
+    # ── Target column selector ────────────────────────────────────────────────
+    st.markdown('<span class="upload-label">✦ &nbsp;Select Target Column</span>', unsafe_allow_html=True)
+    
+    column_names = get_column_names(uploaded_file)
+    
+    
+    if column_names:
+        st.session_state.target_column = st.selectbox(
+            label="Choose the target column for analysis",
+            options=[None] + column_names,
+            index=0 if st.session_state.target_column is None else (
+                column_names.index(st.session_state.target_column)
+                if st.session_state.target_column in column_names else 0
+            ),
+            label_visibility="collapsed",
+        )
+    else:
+        st.error("Unable to extract columns from the file.")
+
 # ── Divider ───────────────────────────────────────────────────────────────────
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
@@ -198,6 +230,7 @@ col_reset, col_submit = st.columns([1, 1], gap="medium")
 with col_reset:
     if st.button("↺ &nbsp; Reset", use_container_width=True):
         st.session_state.uploaded_file = None
+        st.session_state.target_column = None
         st.session_state.reset_trigger += 1
         st.rerun()
 
@@ -205,15 +238,18 @@ with col_submit:
     if st.button("Analyse &nbsp; →", use_container_width=True, type="primary"):
         if st.session_state.uploaded_file is None:
             st.warning("⚠ Please upload an Excel file before submitting.")
+        elif st.session_state.target_column is None:
+            st.warning("⚠ Please select a target column before submitting.")
         else:
             with st.spinner("Analysing your data…"):
-
-                cleaned_df, metadata = profiler_main(st.session_state.uploaded_file)
+                dataframe = pd.read_excel(st.session_state.uploaded_file)
+                target_col = st.session_state.target_column
+                
+                cleaned_df, metadata = profiler_main(dataframe)
                 correlations = patterns_main(cleaned_df, metadata)
                 figures = patterns_2_main(correlations, top_n=10)
-
+                problem = problem_type_main(cleaned_df, metadata, target_col)
 
                 time.sleep(1.5)
             st.balloons()
-            st.success("✓ Analysis complete! Results will appear below.")
-
+            st.success(f"✓ Analysis complete! Target column: **{st.session_state.target_column}**")

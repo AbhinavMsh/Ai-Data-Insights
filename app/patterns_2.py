@@ -158,7 +158,7 @@ def plot_significant_pairs_bar(correlations: dict, method: str = "pearson", top_
     return fig
 
 
-def correlations_2_main(correlations: dict, top_n: int = 10) -> dict:
+def patterns_2_main(correlations: dict, top_n: int = 10) -> dict:
 
     return {
         "pearson_heatmap" : plot_correlation_heatmap(correlations, method="pearson"),
