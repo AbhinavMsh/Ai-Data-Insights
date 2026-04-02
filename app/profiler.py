@@ -4,15 +4,6 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
-def profiler_main(uploaded_file):
-    # main function
-    df = uploaded_file.copy()
-
-    metadata = full_profile(df)
-    
-    return clean_dataframe(df), metadata
-    ...
-
 def detect_column_types(df: pd.DataFrame) -> dict:
     """
     Detect the semantic type of each column in a DataFrame.
@@ -138,7 +129,7 @@ def dataframe_summary(df):
         "duplicate_rows": int(df.duplicated().sum())
     }
 
-def full_profile(df: pd.DataFrame, dominated_threshold: float = 0.70) -> dict:
+def full_profile(df: pd.DataFrame, targetCol, dominated_threshold: float = 0.70) -> dict:
     """
     Runs all profiling functions and returns a single unified dictionary.
 
@@ -152,6 +143,7 @@ def full_profile(df: pd.DataFrame, dominated_threshold: float = 0.70) -> dict:
     return {
         "summary":           dataframe_summary(df),
         "column_types":      detect_column_types(df),
+        "target_column":     targetCol,
         "missing_pct":       missing_data_percentage(df),
         "numeric_stats":     calculate_stats(df),
         "dominated_columns": check_dominated_categorical(df, threshold=dominated_threshold),
@@ -184,6 +176,12 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=categorical_cols)
 
     return df 
+
+def profiler_main(uploaded_file, target_col: str = "None"):
+    df       = uploaded_file.copy()
+    metadata = full_profile(df, targetCol=target_col)
+    return clean_dataframe(df), metadata
+
 '''
 Expected output
 {

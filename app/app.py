@@ -3,6 +3,7 @@ from profiler import profiler_main
 from patterns import patterns_main
 from patterns_2 import patterns_2_main
 from problem_type import problem_type_main
+from model_engine import model_main
 import pandas as pd
 import time
 
@@ -245,10 +246,11 @@ with col_submit:
                 dataframe = pd.read_excel(st.session_state.uploaded_file)
                 target_col = st.session_state.target_column
                 
-                cleaned_df, metadata = profiler_main(dataframe)
+                cleaned_df, metadata = profiler_main(dataframe,target_col)
                 correlations = patterns_main(cleaned_df, metadata)
                 figures = patterns_2_main(correlations, top_n=10)
                 problem = problem_type_main(cleaned_df, metadata, target_col)
+                module4 = model_main( cleaned_df ,metadata,target_col, problem)
 
                 time.sleep(1.5)
             st.balloons()
