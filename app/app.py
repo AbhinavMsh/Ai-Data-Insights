@@ -8,8 +8,6 @@ from insights import insights_main
 import pandas as pd
 import time
 
-api_key = "AIzaSyA7V556qEdAbipgb2qHlN0a9IX6jeTFc0I"
-
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="AI Data Insight System",
