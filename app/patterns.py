@@ -35,7 +35,7 @@ def classify_strength(abs_r: float) -> str:
         return "negligible"
 
 
-def compute_pearson_correlation(df: pd.DataFrame, metadata: dict, threshold: float = 0.7) -> dict:
+def compute_pearson_correlation(df: pd.DataFrame, metadata: dict, threshold: float) -> dict:
     """
     Computes Pearson correlation matrix and extracts
     significant pairs above the given threshold.
@@ -101,7 +101,7 @@ def compute_pearson_correlation(df: pd.DataFrame, metadata: dict, threshold: flo
     }
 
 
-def compute_spearman_correlation(df: pd.DataFrame, metadata: dict, threshold: float = 0.7) -> dict:
+def compute_spearman_correlation(df: pd.DataFrame, metadata: dict, threshold: float) -> dict:
     """
     Computes Spearman correlation matrix and extracts
     significant pairs above the given threshold.
@@ -167,7 +167,7 @@ def compute_spearman_correlation(df: pd.DataFrame, metadata: dict, threshold: fl
     }
 
 
-def compute_cramers_v_association(df: pd.DataFrame, metadata: dict, threshold: float = 0.3) -> dict:
+def compute_cramers_v_association(df: pd.DataFrame, metadata: dict, threshold: float) -> dict:
     """
     Computes Cramér's V association matrix and extracts
     significant pairs above the given threshold.
@@ -261,8 +261,8 @@ def compute_cramers_v_association(df: pd.DataFrame, metadata: dict, threshold: f
 
 def patterns_main(cleaned_df: pd.DataFrame,metadata: dict) -> dict:
 
-    numeric_threshold: float = 0.7
-    categoric_threshold: float = 0.3
+    numeric_threshold: float = 0.3
+    categoric_threshold: float = 0.2
     
     correlations = {
         "pearson" : compute_pearson_correlation(cleaned_df, metadata, threshold=numeric_threshold),
