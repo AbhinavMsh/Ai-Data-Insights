@@ -14,6 +14,7 @@ st.set_page_config(
     page_icon="✦",
     layout="centered",
 )
+api_key = st.secrets["API_KEY"]
 
 def load_css(filepath: str):
     with open(filepath, "r") as f:
