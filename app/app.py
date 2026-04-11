@@ -5,6 +5,7 @@ from patterns_2 import patterns_2_main
 from problem_type import problem_type_main
 from model_engine import model_main
 from insights import insights_main
+from styles import get_css
 import pandas as pd
 import time
 
@@ -16,12 +17,7 @@ st.set_page_config(
 )
 api_key = st.secrets["API_KEY"]
 
-def load_css(filepath: str):
-    with open(filepath, "r") as f:
-        css = f.read()
-    st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-
-load_css("styles.css")
+st.markdown(f"<style>{get_css()}</style>", unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────────
 for key, default in {

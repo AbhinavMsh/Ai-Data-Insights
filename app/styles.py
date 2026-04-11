@@ -1,5 +1,6 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+def get_css() -> str:
+    return """
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
 
@@ -254,3 +255,5 @@ div[data-testid="column"]:nth-child(1) .stButton > button:hover {
     border: 1px solid rgba(56,189,248,0.35);
     color: #38bdf8;
 }
+    """
+
