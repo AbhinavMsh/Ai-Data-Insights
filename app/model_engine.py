@@ -29,12 +29,11 @@ def _prepare_features(df: pd.DataFrame, target_col: str, metadata: dict) -> tupl
 
 
 def model_type(problem: dict) -> dict:
-
     problem_type = problem.get("problem_type")
 
     if problem_type in ("binary_classification", "multiclass_classification"):
         return {
-            "Logistic Regression": LogisticRegression(max_iter=1000, random_state=42),
+            "Logistic Regression": LogisticRegression(max_iter=5000, random_state=42, solver="saga"),
             "Random Forest"      : RandomForestClassifier(n_estimators=100, random_state=42),
             "XGBoost"            : XGBClassifier(n_estimators=100, random_state=42,
                                                   eval_metric="logloss", verbosity=0)
@@ -50,9 +49,8 @@ def model_type(problem: dict) -> dict:
 
 
 def _evaluate_classification(X: pd.DataFrame, y: pd.Series, models: dict, problem_type: str) -> list:
-
     n_classes = y.nunique()
-    average   = "binary" if problem_type == "binary_classification" else "macro"
+    f1_scorer = "f1" if problem_type == "binary_classification" else "f1_macro"
     cv        = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
     results = []
@@ -63,7 +61,7 @@ def _evaluate_classification(X: pd.DataFrame, y: pd.Series, models: dict, proble
                 cv     = cv,
                 scoring= {
                     "accuracy": "accuracy",
-                    "f1"      : f"f1_{average}",
+                    "f1"      : f1_scorer,
                     "roc_auc" : "roc_auc" if n_classes == 2 else "roc_auc_ovr_weighted"
                 },
                 return_train_score = False,
@@ -130,11 +128,9 @@ def _evaluate_regression(X: pd.DataFrame, y: pd.Series, models: dict) -> list:
     return results
 
 
-def model_main(cleaned_df: pd.DataFrame,metadata: dict,target_col: str,problem: dict) -> dict:
-
+def model_main(cleaned_df: pd.DataFrame, metadata: dict, target_col: str, problem: dict) -> dict:
     problem_type = problem.get("problem_type")
 
-    # FIX 4 — handle unsupervised, unknown and None together
     if problem_type in ("unsupervised_clustering", "unknown", None):
         return {
             "problem_type" : problem_type,
