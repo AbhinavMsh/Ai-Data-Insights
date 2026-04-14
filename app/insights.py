@@ -248,7 +248,7 @@ All Models Compared:
 #  BUILD THE FULL PROMPT
 # ─────────────────────────────────────────
 
-def build_prompt(metadata: dict, correlations: dict, problem: dict, model_stats: dict) -> str:
+def build_prompt(metadata: dict, correlations: dict, problem: dict, model_stats: dict, target_col) -> str:
     """
     Assembles all 4 module extracts into one structured prompt for Gemini.
 
@@ -263,26 +263,52 @@ def build_prompt(metadata: dict, correlations: dict, problem: dict, model_stats:
     problem_section  = extract_problem_info(problem)
     model_section    = extract_model_info(model_stats)
 
-    prompt = f"""
-You are a data science assistant. Below are findings from an automated ML pipeline.
-Analyse all sections and generate insights.
+    if target_col == None or target_col == "None":
+        prompt= f"""
+            You are a data science assistant. Below are findings from an automated ML pipeline.
+            Analyse all sections and generate insights.
 
-{profiler_section}
-{patterns_section}
-{problem_section}
-{model_section}
+            {profiler_section}
+            {patterns_section}
+            {problem_section}
+            {model_section}
 
-=== YOUR TASK ===
-Based on ALL the above findings, respond in this exact JSON format:
+            === YOUR TASK ===
+            Based on ALL the above findings, respond in this exact JSON format:
 
-{{
-  "executive_summary": "2-3 sentences explaining the dataset and key findings in simple language for someone with no technical background.",
-  "technical_summary": "3-4 sentences covering column types, missing data, correlations, anomalies, skewness, class imbalance, problem type, and model performance for a data science audience.",
-  "top_recommendation": "1-2 sentences on the single most important next step based on the full analysis."
-}}
+            {{
+            "executive_summary": "2-3 sentences explaining the dataset and key findings in simple language for someone with no technical background.",
+            "technical_summary": "3-4 sentences covering column types, missing data, correlations, anomalies, skewness, class imbalance, problem type, and model performance for a data science audience.",
+            "top_recommendation": "1-2 sentences on the single most important next step based on the full analysis."
+            }}
 
-Return ONLY the JSON. No extra text, no markdown, no explanation outside the JSON.
-"""
+            Return ONLY the JSON. No extra text, no markdown, no explanation outside the JSON.
+            """
+        
+    else:
+        prompt= f"""
+            You are a data science assistant. Below are findings from an automated ML pipeline.
+            Analyse all sections and generate insights.
+
+            {profiler_section}
+            {patterns_section}
+            {problem_section}
+            {model_section}
+
+            === YOUR TASK ===
+            The target column is '{problem.get("target_column", "unknown")}'. Everything in your analysis must revolve around this column.
+
+            Based on ALL the above findings, respond in this exact JSON format:
+
+            {{
+            "executive_summary": "2-3 sentences for a non-technical audience. Lead with what the target column is, what factors most strongly influence it, and what the best model achieved.",
+            "technical_summary": "3-4 sentences for a data science audience. Focus on: which features correlate most with the target column, how the target column is distributed (skewness), any class imbalance in the target, and the best model's performance metrics on predicting the target.",
+            "top_recommendation": "1-2 sentences on the single most impactful action to improve prediction of the target column specifically — not general data quality advice unless it directly affects the target."
+            }}
+
+            Return ONLY the JSON. No extra text, no markdown, no explanation outside the JSON.
+            """
+                    
     return prompt
 
 
@@ -337,7 +363,7 @@ def parse_response(raw_text: str) -> dict:
 #  MAIN FUNCTION
 # ─────────────────────────────────────────
 
-def insights_main(api_key: str, metadata: dict, correlations: dict, problem: dict, model_stats: dict) -> dict:
+def insights_main(api_key: str, metadata: dict, correlations: dict, problem: dict, model_stats: dict, target_col) -> dict:
     """
     Master function — the only one you call from dashboard.py.
 
@@ -377,7 +403,7 @@ def insights_main(api_key: str, metadata: dict, correlations: dict, problem: dic
     try:
         configure_api(api_key)
 
-        prompt       = build_prompt(metadata, correlations, problem, model_stats)
+        prompt       = build_prompt(metadata, correlations, problem, model_stats, target_col)
         raw_response = call_gemini(prompt)
 
         return parse_response(raw_response)
