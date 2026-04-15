@@ -1,3 +1,4 @@
+# Module 2: patterns 
 import pandas as pd
 import numpy as np
 from scipy import stats
