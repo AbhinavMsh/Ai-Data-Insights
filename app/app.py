@@ -121,7 +121,7 @@ with col_submit:
                 figures              = patterns_2_main(correlations, top_n=10)
                 problem              = problem_type_main(cleaned_df, metadata, target_col)
                 model_stats          = model_main(cleaned_df, metadata, target_col, problem)
-                summary              = insights_main(api_key, metadata, correlations, problem, model_stats)
+                summary              = insights_main(api_key, metadata, correlations, problem, model_stats, target_col)
 
                 st.session_state.metadata     = metadata
                 st.session_state.correlations = correlations
