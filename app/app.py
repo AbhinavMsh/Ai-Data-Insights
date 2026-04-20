@@ -299,37 +299,35 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
     # ── 4. MODEL RESULTS ─────────────────────────────────────────────────────
-    st.markdown('<span class="section-label">✦ &nbsp;Model Results</span>', unsafe_allow_html=True)
+   st.markdown('<span class="section-label">✦ &nbsp;Model Results</span>', unsafe_allow_html=True)
 
-    all_results  = model_stats.get("all_results", [])
-    best_model   = model_stats.get("best_model", "")
-    problem_t    = model_stats.get("problem_type", "")
-    is_classif   = "classification" in str(problem_t)
+    result      = model_stats.get("results", {})
+    best_model  = model_stats.get("best_model", "")
+    problem_t   = model_stats.get("problem_type", "")
+    is_classif  = "classification" in str(problem_t)
 
-    if all_results:
-        for r in all_results:
-            is_best    = r["model"] == best_model
-            card_class = "model-row best-model" if is_best else "model-row"
-            badge      = '<span class="badge">Best</span>' if is_best else ""
+    if result:
+        card_class = "model-row best-model"
+        badge = '<span class="badge">Best</span>'
 
-            if is_classif:
-                score_text = f"Accuracy: {r.get('accuracy', '—')} &nbsp;|&nbsp; F1: {r.get('f1_score', '—')} &nbsp;|&nbsp; ROC-AUC: {r.get('roc_auc', '—')}"
-            else:
-                score_text = f"R²: {r.get('r2_score', '—')} &nbsp;|&nbsp; MAE: {r.get('mae', '—')} &nbsp;|&nbsp; RMSE: {r.get('rmse', '—')}"
+        if is_classif:
+            score_text = f"""
+            Accuracy: {result.get('accuracy', '—')} &nbsp;|&nbsp;
+            F1: {result.get('f1_score', '—')}
+            """
+        else:
+            score_text = f"""
+            R²: {result.get('r2_score', '—')} &nbsp;|&nbsp;
+            MAE: {result.get('mae', '—')}
+            """
 
-            st.markdown(f"""
-            <div class="{card_class}">
-                <span class="model-name">{r['model']}{badge}</span>
-                <span class="model-score">{score_text}</span>
-            </div>""", unsafe_allow_html=True)
-    else:
-        error_msg = model_stats.get("error", "No models could be evaluated.")
         st.markdown(f"""
-        <div class="insight-card" style="text-align:center; padding:2rem">
-            <div style="font-size:0.9rem; color:#ef4444">{error_msg}</div>
-        </div>""", unsafe_allow_html=True)
+        <div class="{card_class}">
+            <span class="model-name">{best_model}{badge}</span>
+            <span class="model-score">{score_text}</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
     # ── 5. AI INSIGHTS ────────────────────────────────────────────────────────
     st.markdown('<span class="section-label">✦ &nbsp;AI Insights</span>', unsafe_allow_html=True)
