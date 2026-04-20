@@ -299,7 +299,7 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
     # ── 4. MODEL RESULTS ─────────────────────────────────────────────────────
-   st.markdown('<span class="section-label">✦ &nbsp;Model Results</span>', unsafe_allow_html=True)
+    st.markdown('<span class="section-label">✦ &nbsp;Model Results</span>', unsafe_allow_html=True)
 
     result      = model_stats.get("results", {})
     best_model  = model_stats.get("best_model", "")
@@ -327,6 +327,7 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
             <span class="model-score">{score_text}</span>
         </div>
         """, unsafe_allow_html=True)
+
 
 
     # ── 5. AI INSIGHTS ────────────────────────────────────────────────────────
