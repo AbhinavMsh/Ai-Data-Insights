@@ -308,7 +308,6 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
 
     if result:
         card_class = "model-row best-model"
-        badge = '<span class="badge">Best</span>'
 
         if is_classif:
             score_text = f"""
@@ -323,7 +322,7 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
 
         st.markdown(f"""
         <div class="{card_class}">
-            <span class="model-name">{best_model}{badge}</span>
+            <span class="model-name">{best_model}</span>
             <span class="model-score">{score_text}</span>
         </div>
         """, unsafe_allow_html=True)
