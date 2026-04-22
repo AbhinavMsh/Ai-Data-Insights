@@ -109,8 +109,6 @@ with col_submit:
     if st.button("Analyse &nbsp; →", use_container_width=True, type="primary"):
         if st.session_state.uploaded_file is None:
             st.warning("⚠ Please upload an Excel file before submitting.")
-        elif st.session_state.target_column is None:
-            st.warning("⚠ Please select a target column before submitting.")
         else:
             with st.spinner("Analysing your data…"):
                 dataframe  = pd.read_excel(st.session_state.uploaded_file)
@@ -322,13 +320,20 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
 
         st.markdown(f"""
         <div class="{card_class}">
-            <span class="model-name">{best_model}</span>
+            <span class="model-name">{best_model}span>
             <span class="model-score">{score_text}</span>
         </div>
         """, unsafe_allow_html=True)
 
+    else:
+        error_msg = model_stats.get("error", "No models could be evaluated.")
+        st.markdown(f"""
+        <div class="insight-card" style="text-align:center; padding:2rem">
+            <div style="font-size:0.9rem; color:#ef4444">{error_msg}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-
+st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     # ── 5. AI INSIGHTS ────────────────────────────────────────────────────────
     st.markdown('<span class="section-label">✦ &nbsp;AI Insights</span>', unsafe_allow_html=True)
 
