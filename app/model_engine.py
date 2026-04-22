@@ -1,4 +1,4 @@
-# Module 4: Auto Model Selection Engine
+# Module 4: Auto Model Engine 
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression, LinearRegression
@@ -99,6 +99,7 @@ def model_main(cleaned_df: pd.DataFrame, metadata: dict, target_col: str, proble
         "problem_type": problem_type,
         "target_column": target_col,
         "best_model": type(model).__name__,
+        
         "best_metric": results.get("best_metric"),
         "results": results,
         "error": results.get("error")
