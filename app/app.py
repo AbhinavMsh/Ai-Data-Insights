@@ -333,7 +333,7 @@ if st.session_state.analysis_done and st.session_state.summary is not None:
         </div>
         """, unsafe_allow_html=True)
 
-st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     # ── 5. AI INSIGHTS ────────────────────────────────────────────────────────
     st.markdown('<span class="section-label">✦ &nbsp;AI Insights</span>', unsafe_allow_html=True)
 
