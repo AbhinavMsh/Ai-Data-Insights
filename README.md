@@ -20,10 +20,9 @@ An intelligent data analysis and interactive visualization platform powered by P
 | :--- | :--- |
 | **Frontend & UI** | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white) |
 | **Data Processing** | ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat&logo=numpy&logoColor=white) ![openpyxl](https://img.shields.io/badge/openpyxl-green?style=flat) |
-| **Machine Learning & Analytics** | ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white) style=flat&logo=scipy&logoColor=white) |
+| **Machine Learning & Analytics** | ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white) |
 | **Data Visualization** | ![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=flat&logo=plotly&logoColor=white) |
 | **AI Integration** | ![Google Gemini](https://img.shields.io/badge/Google%20Gemini%20API-8E75B2?style=flat&logo=google&logoColor=white) |
-| **Configuration** | ![python-dotenv](https://img.shields.io/badge/python--dotenv-yellow?style=flat) |
 
 ---
 
