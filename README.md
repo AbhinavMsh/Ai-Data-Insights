@@ -14,15 +14,19 @@ An intelligent data analysis and interactive visualization platform powered by P
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Dependencies
 
-- **Language:** Python 3
-- **Data Manipulation:** Pandas, NumPy
-- **Data Visualization:** Matplotlib, Seaborn, Plotly
-- **Web Framework:** Streamlit
-- **LLM Integration:** OpenAI / Google Gemini API (for generating automated text insights)
+| Category | Technologies / Libraries Used |
+| :--- | :--- |
+| **Frontend & UI** | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white) |
+| **Data Processing** | ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat&logo=numpy&logoColor=white) ![openpyxl](https://img.shields.io/badge/openpyxl-green?style=flat) |
+| **Machine Learning & Analytics** | ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white) ![XGBoost](https://img.shields.io/badge/XGBoost-111111?style=flat) ![SciPy](https://img.shields.io/badge/SciPy-8CAAE6?style=flat&logo=scipy&logoColor=white) |
+| **Data Visualization** | ![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=flat&logo=plotly&logoColor=white) |
+| **AI Integration** | ![Google Gemini](https://img.shields.io/badge/Google%20Gemini%20API-8E75B2?style=flat&logo=google&logoColor=white) |
+| **Configuration** | ![python-dotenv](https://img.shields.io/badge/python--dotenv-yellow?style=flat) |
 
 ---
+
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-data-insights-ht2ygvbfaqwsmigucwqxoa.streamlit.app/)
 
 🌐 **Live Demo:** [AI Data Insights App](https://ai-data-insights-ht2ygvbfaqwsmigucwqxoa.streamlit.app/)
