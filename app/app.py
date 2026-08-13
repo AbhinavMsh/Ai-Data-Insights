@@ -17,7 +17,7 @@ st.set_page_config(
 )
 # api_key = st.secrets["API_KEY"]
 # remove before pushing
-api_key = 
+api_key = st.secrets["API_KEY"]
 
 st.markdown(f"<style>{get_css()}</style>", unsafe_allow_html=True)
 
